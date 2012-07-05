@@ -263,6 +263,8 @@
     }
     else if (event.which == 13) {
       // Enter pressed
+      _grab_active_select().downpour('select');
+      event.preventDefault();
     }
   }
 
