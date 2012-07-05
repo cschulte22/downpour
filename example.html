@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
+  <link href="downpour.css" media="screen" rel="stylesheet" type="text/css" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="jquery.downpour.js"></script>
+
+  <script type="text/javascript" charset="utf-8">
+    $(function() {
+      $('#choose_brewery').downpour({
+        nowrap: true
+      });
+    })
+  </script>
+
+  <style type="text/css">
+    body { font-family: Arial, sans-serif; font-size: 13px; }
+  </style>
+</head>
+
+<body>
+
+  <h2>Downpour Example</h2>
+
+  <table>
+    <tr>
+      <td>Select a brewery:</td>
+      <td>
+        <select id='choose_brewery' name='choose_brewery' class='my_custom_select'>
+          <option value='stone'>Stone Brewing</option>
+          <option value='ballast_point'>Ballast Point</option>
+          <option value='green_flash'>Green Flash</option>
+          <option value='alesmith' selected>Alesmith</option>
+          <option value='societe'>Societe</option>
+          <option value='lost_abbey'>Lost Abbey</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>You selected:</td>
+      <td id='selected_brewery'>
+      </td>
+    </tr>
+  </table>
+
+  <h2>Other examples</h2>
+  <table>
+    <tr>
+      <td>Select a beer style:</td>
+      <td>
+        <select id='choose_style' name='choose_style' class='my_custom_select'>
+          <option value='ipa'>India Pale Ale</option>
+          <option value='stout'>Stout</option>
+          <option value='porter'>Porter</option>
+          <option value='amber'>Amber Ale</option>
+          <option value='dark_lager'>Dark Lager</option>
+          <option value='dipa'>Double IPA</option>
+        </select>
+      </td>
+    </tr>
+  </table>
+
+
+<body>
+</html>
