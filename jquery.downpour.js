@@ -46,7 +46,10 @@
         width: this.css('width')
       });
 
-      _select_box(this).bind('click.downpour', function() { _handle_select_click($(this).siblings('select')); });
+      _select_box(this).bind('click.downpour', function(event) {
+        event.stopPropagation(); 
+        _handle_select_click($(this).siblings('select')); 
+      });
 
       wrapper.append('<div class="downpour_option_box" />');
       _option_box(this).css({
@@ -129,6 +132,7 @@
         });
 
         $(document).bind('keydown.downpour', _handle_keypress);
+        $(document).bind('click.downpour', function() { _grab_active_select().downpour('blur')});
 
         var data = this.data('downpour');
         if (data.selected !== undefined && data.selected != null) {
@@ -224,6 +228,7 @@
     option_box.find('div.downpour_row').unbind('click.downpour');
 
     $(document).unbind('keydown.downpour');
+    $(document).unbind('click.downpour');
 
     option_box.hide();
   }
