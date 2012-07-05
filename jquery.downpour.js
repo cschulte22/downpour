@@ -167,6 +167,14 @@
 
       _hide_options(this);
 
+      var data = this.data('downpour');
+      if (data.settings.select !== undefined) {
+        console.log('select event defined');
+        data.settings.select.apply(this, [current_row.data('downpour_value'), current_row.html()]);
+      }
+      else {
+        console.log('select event undefined');
+      }
     },
 
     selected: function(value) {

@@ -12,7 +12,10 @@
   <script type="text/javascript" charset="utf-8">
     $(function() {
       $('#choose_brewery').downpour({
-        nowrap: true
+        nowrap: true,
+        select: function(value, text) {
+          $('#selected_brewery').html(text + " (value: " + value + ")");
+        }
       });
     })
   </script>
