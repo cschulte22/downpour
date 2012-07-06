@@ -110,6 +110,7 @@
         var option_box = _option_box($this);
 
         if (!option_box.is(':visible')) {
+          select_box.addClass('downpour_select_box_focus');
           option_box.css({
             top: (select_box.outerHeight()) + 'px'
           })
@@ -224,6 +225,8 @@
   function _hide_options(item) {
     var select_box = _select_box(item);
     var option_box = _option_box(item);
+
+    select_box.removeClass('downpour_select_box_focus');
 
     option_box.find('div.downpour_row').unbind('mouseover.downpour');
     option_box.find('div.downpour_row').unbind('mouseout.downpour');
