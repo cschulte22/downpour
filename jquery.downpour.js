@@ -304,7 +304,6 @@
       var row_height = highlighted_row.outerHeight();
 
       if ((row_top + row_height) > (box_top + box_height) || (row_top < box_top)) {
-        console.log('Scroll to highlighted row');
         option_box.scrollTop(row_top);
       }
     }
