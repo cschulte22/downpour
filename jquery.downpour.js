@@ -30,12 +30,13 @@
         }
 
         // Add a div with relative positioning around the select box
-        $this.wrap('<div class="downpour_wrap ' + settings['class'] + '"/>');
+        $this.wrap('<div class="downpour_wrap"/>');
         var wrapper = $this.parent('div.downpour_wrap');
         wrapper.css({
           'position': 'relative',
           'overflow': 'visible'
         });
+        wrapper.addClass($this.attr('class'));
 
         // Hide the original select box
         $this.hide();

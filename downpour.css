@@ -7,4 +7,7 @@ div.downpour_wrap div.downpour_row_selected { background-color: #3333ff; border-
 div.downpour_wrap div.downpour_row_hover, 
 div.downpour_wrap div.downpour_row_selected.downpour_row_hover { background-color: #ffff99; border-color: #ffff33; color: black; }
 
-
+/* Sample of how you'd do a custom theme */
+div.downpour_wrap.orange_select div.downpour_select_box { background-color: orange; font-weight: bold; }
+div.downpour_wrap.orange_select div.downpour_row_selected { background-color: orange; color: black;}
+div.downpour_wrap.orange_select div.downpour_row { border-color: orange; font-weight: bold; }
