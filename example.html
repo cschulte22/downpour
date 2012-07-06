@@ -17,6 +17,8 @@
           $('#selected_brewery').html(text + " (value: " + value + ")");
         }
       });
+
+      $('select.my_other_select').downpour({nowrap: true});
     })
   </script>
 
@@ -55,7 +57,7 @@
     <tr>
       <td>Select a beer style:</td>
       <td>
-        <select id='choose_style' name='choose_style' class='my_custom_select'>
+        <select id='choose_style' name='choose_style' class='my_other_select'>
           <option value='ipa'>India Pale Ale</option>
           <option value='stout'>Stout</option>
           <option value='porter'>Porter</option>
@@ -65,8 +67,20 @@
         </select>
       </td>
     </tr>
+    <tr>
+      <td>Select a beer city:</td>
+      <td>
+        <select id='choose_city' name='choose_city' class='my_other_select'>
+          <option value='san_diego' selected>San Diego</option>
+          <option value='san_francisco'>San Francisco</option>
+          <option value='portland'>Portland</option>
+          <option value='seattle'>Seattle</option>
+          <option value='chicago'>Chicago</option>
+          <option value='denver'>Denver</option>
+        </select>
+      </td>
+    </tr>
   </table>
-
 
 <body>
 </html>
