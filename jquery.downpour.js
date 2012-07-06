@@ -14,9 +14,6 @@
       return this.each(function() {
         var $this = $(this);
 
-        console.log('downpour init');
-        console.log('downpour init called for ' + $this.attr('id'));
-
         settings = $.extend({}, defaults, settings);
 
         var id = $this.attr('id');
@@ -24,7 +21,6 @@
         var data = $this.data('downpour') || {}
 
         if (data.id) {
-          console.log('already setup, returning')
           // Already setup
           return $this;
         }
@@ -80,10 +76,6 @@
           option_box.append(row);
         });
 
-        console.log('selected row:')
-        console.log(selected_row);
-
-
         // Grab the selected option from the select box (if any) and append the text to our custom select box
         if (selected_row != null) {
           _select_box($this).html(selected_row.html());
@@ -114,7 +106,6 @@
     focus : function() {
       return this.each(function() {
         var $this = $(this);
-        console.log('Focus method called');
         var select_box = _select_box($this);
         var option_box = _option_box($this);
 
@@ -163,11 +154,7 @@
 
         var data = $this.data('downpour');
         if (data.settings.blur !== undefined) {
-          console.log('blur event defined');
           data.settings.blur.apply($this);
-        }
-        else {
-          console.log('blur event undefined');
         }
       });
     },
@@ -186,11 +173,7 @@
 
         var data = $this.data('downpour');
         if (data.settings.select !== undefined) {
-          console.log('select event defined');
           data.settings.select.apply($this, [current_row.data('downpour_value'), current_row.html()]);
-        }
-        else {
-          console.log('select event undefined');
         }
       });
     },
@@ -253,9 +236,6 @@
   }
 
   function _handle_keypress(event) {
-    console.log('keypress');
-    console.log('pressed: ' + event.which);
-
     if (event.which == 27) {
       // Escape
       _cancel_select(_grab_active_select());
@@ -275,6 +255,7 @@
 
       current_row.removeClass('downpour_row_hover');
       prev_row.addClass('downpour_row_hover');
+      _scroll_to_selected(option_box);
       event.preventDefault();
     }
     else if (event.which == 40) {
@@ -291,6 +272,7 @@
 
       current_row.removeClass('downpour_row_hover');
       next_row.addClass('downpour_row_hover');
+      _scroll_to_selected(option_box);
       event.preventDefault();
     }
     else if (event.which == 13) {
@@ -310,6 +292,21 @@
     }
     else {
       item.downpour('focus');
+    }
+  }
+
+  function _scroll_to_selected(option_box) {
+    var highlighted_row = option_box.find('div.downpour_row_hover');
+    if (highlighted_row) {
+      var box_top = option_box.scrollTop();
+      var row_top = highlighted_row.position().top;
+      var box_height = option_box.outerHeight();
+      var row_height = highlighted_row.outerHeight();
+
+      if ((row_top + row_height) > (box_top + box_height) || (row_top < box_top)) {
+        console.log('Scroll to highlighted row');
+        option_box.scrollTop(row_top);
+      }
     }
   }
 
