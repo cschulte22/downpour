@@ -60,7 +60,8 @@
           position: 'absolute',
           top: '0px',
           left: '0px',
-          'min-width': _select_box($this).outerWidth() + 'px'
+          'min-width': _select_box($this).outerWidth() + 'px',
+          'z-index': (_max_z_index() + 1)
         });
         var option_box = _option_box($this);
         var selected_row = null;
@@ -311,4 +312,14 @@
     }
   }
 
+  function _max_z_index() {
+    var z_index_max = 0;
+    $('div').each(function () {
+      var z = parseInt($(this).css('z-index'));
+      if (z > z_index_max) {
+        z_index_max = z;
+      }
+    });
+    return z_index_max;
+  }
 })( jQuery );
