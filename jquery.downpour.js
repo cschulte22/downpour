@@ -164,8 +164,7 @@
       var options = _option_box(this);
       var current_row = options.find('div.downpour_row_hover');
 
-      var data = this.data('downpour');
-      data.selected = current_row.data('downpour_value');
+      this.downpour('selected', current_row.data('downpour_value'));
 
       this.siblings('div.downpour_select_box').html(current_row.html());
 
@@ -190,6 +189,8 @@
       else {
         // Set the currently selected value
         data.selected = value;
+        // Set it on the underlying select box too
+        this.val(value);
       }
     }
   };
