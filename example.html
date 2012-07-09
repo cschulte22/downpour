@@ -20,6 +20,11 @@
 
       $('select.my_other_select').downpour({nowrap: true});
     })
+
+    function new_options() {
+      $('#choose_brewery').empty().append('<option value="1">One</option><option value="2" selected>Two</option><option value="3">Three</option>');
+      $('#choose_brewery').downpour('reload_options');
+    }
   </script>
 
   <style type="text/css">
@@ -48,6 +53,12 @@
     <tr>
       <td>You selected:</td>
       <td id='selected_brewery'>
+      </td>
+    </tr>
+    <tr>
+      <td>Change:</td>
+      <td>
+        <a href='#' onclick='new_options(); return false;'>Option list</a>
       </td>
     </tr>
   </table>
@@ -86,6 +97,7 @@
       </td>
     </tr>
   </table>
+
 
 <body>
 </html>

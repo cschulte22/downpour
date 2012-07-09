@@ -60,29 +60,8 @@
           'min-width': _select_box($this).outerWidth() + 'px',
           'z-index': (_max_z_index() + 1)
         });
-        var option_box = _option_box($this);
-        var selected_row = null;
 
-        $this.find('option').each(function() {
-          var row = $('<div class="downpour_row">' + $(this).html() + '</div>');
-          row.data('downpour_value', $(this).attr('value'));
-          if (settings.nowrap) {
-            row.css({'white-space': 'nowrap'});
-          }
-          if ($(this).is(':selected')) {
-            selected_row = row;
-          }
-
-          option_box.append(row);
-        });
-
-        // Grab the selected option from the select box (if any) and append the text to our custom select box
-        if (selected_row != null) {
-          _select_box($this).html(selected_row.html());
-        }
-        else {
-          _select_box($this).html('');
-        }
+        var selected_row = _setup_options($this, settings.nowrap);
 
         // Set the dimensions of the wrapper to the size of the select box so it flows correctly
         wrapper.css({
@@ -192,6 +171,19 @@
           data.selected = value;
           // Set it on the underlying select box too
           $this.val(value);
+        }
+      });
+    },
+
+    reload_options: function() {
+      return this.each(function() {
+        var $this = $(this);
+        var data = $this.data('downpour');
+        _option_box($this).empty();
+
+        var selected_row = _setup_options($this, data.settings.nowrap);
+        if (selected_row != null) {
+          data.selected = selected_row.data('downpour_value');
         }
       });
     }
@@ -310,6 +302,34 @@
         option_box.scrollTop(row_top);
       }
     }
+  }
+
+  function _setup_options(item, nowrap) {
+    var option_box = _option_box(item);
+    var selected_row = null;
+
+    item.find('option').each(function() {
+      var row = $('<div class="downpour_row">' + $(this).html() + '</div>');
+      row.data('downpour_value', $(this).attr('value'));
+      if (nowrap) {
+        row.css({'white-space': 'nowrap'});
+      }
+      if ($(this).is(':selected')) {
+        selected_row = row;
+      }
+
+      option_box.append(row);
+    });
+
+    // Grab the selected option from the select box (if any) and append the text to our custom select box
+    if (selected_row != null) {
+      _select_box(item).html(selected_row.html());
+    }
+    else {
+      _select_box(item).html('');
+    }
+
+    return selected_row;
   }
 
   function _max_z_index() {
