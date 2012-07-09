@@ -317,6 +317,7 @@
       if ($(this).is(':selected')) {
         selected_row = row;
       }
+      row.addClass($(this).attr('class'));
 
       option_box.append(row);
     });
