@@ -250,7 +250,7 @@
 
       current_row.removeClass('downpour_row_hover');
       prev_row.addClass('downpour_row_hover');
-      _scroll_to_selected(option_box);
+      _scroll_to_selected(option_box, 'up');
       event.preventDefault();
     }
     else if (event.which == 40) {
@@ -267,7 +267,7 @@
 
       current_row.removeClass('downpour_row_hover');
       next_row.addClass('downpour_row_hover');
-      _scroll_to_selected(option_box);
+      _scroll_to_selected(option_box, 'down');
       event.preventDefault();
     }
     else if (event.which == 13) {
@@ -290,16 +290,32 @@
     }
   }
 
-  function _scroll_to_selected(option_box) {
+  function _scroll_to_selected(option_box, direction) {
     var highlighted_row = option_box.find('div.downpour_row_hover');
     if (highlighted_row) {
       var box_top = option_box.scrollTop();
-      var row_top = highlighted_row.position().top;
+      var row_top = highlighted_row.position().top + box_top;
       var box_height = option_box.outerHeight();
       var row_height = highlighted_row.outerHeight();
+      var box_bottom = box_top + box_height;
+      var row_bottom = row_top + row_height;
 
-      if ((row_top + row_height) > (box_top + box_height) || (row_top < box_top)) {
-        option_box.scrollTop(row_top);
+      var inside = false
+      if (row_top >= box_top && row_top <= box_bottom && row_bottom <= box_bottom && row_bottom >= box_top) {
+        inside = true;
+      }
+
+      if (!inside) {
+        if (direction == 'up') {
+          var new_top = row_top - row_height;
+          if (new_top < 0) {
+            new_top = 0
+          }
+          option_box.scrollTop(new_top);
+        }
+        else {
+          option_box.scrollTop(row_top);
+        }
       }
     }
   }
