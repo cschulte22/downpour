@@ -119,6 +119,8 @@
           }
 
           option_box.show();
+
+          _scroll_to_selected(option_box, 'down');
         }
       });
     },
