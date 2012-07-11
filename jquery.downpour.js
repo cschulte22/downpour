@@ -46,7 +46,7 @@
           width: $this.css('width')
         });
 
-        _select_box($this).bind('click.downpour', function(event) {
+        _select_box($this).on('click.downpour', function(event) {
           event.stopPropagation(); 
           _handle_select_click($(this).siblings('select')); 
         });
@@ -99,19 +99,15 @@
 
           var downpour_rows = option_box.find('div.downpour_row');
 
-          downpour_rows.bind('mouseover.downpour', function() {
-            $(this).siblings('div.downpour_row_hover').removeClass('downpour_row_hover');
-            $(this).addClass('downpour_row_hover');
-          });
-          downpour_rows.bind('mouseout.downpour', function() {
-            $(this).removeClass('downpour_row_hover');
-          });
-          downpour_rows.bind('click.downpour', function() {
+          downpour_rows.on('mouseover.downpour', _option_row_mouseover);
+          downpour_rows.on('mouseout.downpour', _option_row_mouseout);
+
+          downpour_rows.on('click.downpour', function() {
             _grab_active_select().downpour('select');
           });
 
-          $(document).bind('keydown.downpour', _handle_keypress);
-          $(document).bind('click.downpour', function() { _grab_active_select().downpour('blur')});
+          $(document).on('keydown.downpour', _handle_keypress);
+          $(document).on('click.downpour', function() { _grab_active_select().downpour('blur')});
 
           var data = $this.data('downpour');
           if (data.selected !== undefined && data.selected != null) {
@@ -220,12 +216,12 @@
 
     select_box.removeClass('downpour_select_box_focus');
 
-    option_box.find('div.downpour_row').unbind('mouseover.downpour');
-    option_box.find('div.downpour_row').unbind('mouseout.downpour');
-    option_box.find('div.downpour_row').unbind('click.downpour');
+    option_box.find('div.downpour_row').off('mouseover.downpour');
+    option_box.find('div.downpour_row').off('mouseout.downpour');
+    option_box.find('div.downpour_row').off('click.downpour');
 
-    $(document).unbind('keydown.downpour');
-    $(document).unbind('click.downpour');
+    $(document).off('keydown.downpour');
+    $(document).off('click.downpour');
 
     option_box.hide();
   }
@@ -306,6 +302,11 @@
       }
 
       if (!inside) {
+        var downpour_rows = option_box.find('div.downpour_row');
+        // Temporarily disable the mouseover events during scroll to prevent selection jump
+        option_box.find('div.downpour_row').off('mouseover.downpour');
+        option_box.find('div.downpour_row').off('mouseout.downpour');
+
         if (direction == 'up') {
           var new_top = row_top - row_height;
           if (new_top < 0) {
@@ -316,6 +317,12 @@
         else {
           option_box.scrollTop(row_top);
         }
+
+        // Re-enable the mouseover events 
+        window.setTimeout(function() {
+          downpour_rows.on('mouseover.downpour', _option_row_mouseover);
+          downpour_rows.on('mouseout.downpour', _option_row_mouseout);
+        }, 400);
       }
     }
   }
@@ -347,6 +354,15 @@
     }
 
     return selected_row;
+  }
+
+  function _option_row_mouseover() {
+    $(this).siblings('div.downpour_row_hover').removeClass('downpour_row_hover');
+    $(this).addClass('downpour_row_hover');
+  }
+
+  function _option_row_mouseout() {
+    $(this).removeClass('downpour_row_hover');
   }
 
   function _max_z_index() {
