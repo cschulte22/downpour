@@ -6,7 +6,8 @@
 (function( $ ) {
   var defaults = {
     'class' : '',
-    nowrap: false
+    nowrap: false,
+    auto_nbsp: false
   }
 
   var methods = {
@@ -61,7 +62,7 @@
           'z-index': (_max_z_index() + 1)
         });
 
-        var selected_row = _setup_options($this, settings.nowrap);
+        var selected_row = _setup_options($this, settings.nowrap, settings.auto_nbsp);
 
         // Set the dimensions of the wrapper to the size of the select box so it flows correctly
         wrapper.css({
@@ -179,7 +180,7 @@
         var data = $this.data('downpour');
         _option_box($this).empty();
 
-        var selected_row = _setup_options($this, data.settings.nowrap);
+        var selected_row = _setup_options($this, data.settings.nowrap, data.settings.auto_nbsp);
         if (selected_row != null) {
           data.selected = selected_row.data('downpour_value');
         }
@@ -329,7 +330,7 @@
     }
   }
 
-  function _setup_options(item, nowrap) {
+  function _setup_options(item, nowrap, auto_nbsp) {
     var option_box = _option_box(item);
     var selected_row = null;
 
@@ -343,6 +344,10 @@
         selected_row = row;
       }
       row.addClass($(this).attr('class'));
+
+      if (auto_nbsp && $.trim(row.html()) == '') {
+        row.html('&nbsp;');
+      }
 
       option_box.append(row);
     });

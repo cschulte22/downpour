@@ -36,6 +36,7 @@ You can specify a few options when creating your downpour select box:
 ```javascript
 $('#my_custom_box').downpour({
   nowrap: true,  // Option rows won't be wrapped
+  auto_nbsp: true,  // Automatically replace empty option tags with &nbsp; default false
   select: function(value, text) {
     // Callback when a value is selected, receives the value of the 
     // row and the html text. $(this) refers to the select tag
