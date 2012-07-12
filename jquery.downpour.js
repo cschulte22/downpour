@@ -44,7 +44,7 @@
           position: 'absolute',
           top: '0px',
           left: '0px',
-          width: $this.css('width')
+          width: $this.outerWidth() + 'px'
         });
 
         _select_box($this).on('click.downpour', function(event) {
