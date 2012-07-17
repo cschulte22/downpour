@@ -273,7 +273,7 @@
       if (current_row.length == 0) {
         current_row = option_box.find('div.downpour_row_selected');
       }
-      var prev_row = current_row.prev('div.downpour_row');
+      var prev_row = current_row.prevAll('div.downpour_row:not(.downpour_row_disabled)').first();
       if (prev_row.length == 0) {
         prev_row = option_box.find('div.downpour_row').last();
       }
@@ -290,7 +290,7 @@
       if (current_row.length == 0) {
         current_row = option_box.find('div.downpour_row_selected');
       }
-      var next_row = current_row.next('div.downpour_row');
+      var next_row = current_row.nextAll('div.downpour_row:not(.downpour_row_disabled)').first();
       if (next_row.length == 0) {
         next_row = option_box.find('div.downpour_row').first();
       }
