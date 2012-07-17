@@ -26,6 +26,10 @@
           return $this;
         }
 
+        if (id === undefined) {
+          id = new Date().getTime() + '_' + Math.round(Math.random() * 1000000)
+        }
+
         // Add a div with relative positioning around the select box
         $this.wrap('<div class="downpour_wrap"/>');
         var wrapper = $this.parent('div.downpour_wrap');
@@ -119,6 +123,18 @@
             });
           }
 
+          var parent_wrap = $this.parent('div.downpour_wrap');
+          var option_div = $('<div id="' + _absolute_id($this) + '" class="downpour_absolute"></div>');
+          option_div.addClass(parent_wrap.attr('class'));
+          option_div.css({
+            position: 'absolute',
+            top: parent_wrap.offset().top,
+            left: parent_wrap.offset().left
+          });
+
+          option_box.appendTo(option_div);
+          option_div.appendTo('body');
+          option_div.data('downpour_active_select', $this);
           option_box.show();
 
           _scroll_to_selected(option_box, 'down');
@@ -206,7 +222,12 @@
   }
 
   function _option_box(item) {
-    return item.siblings('div.downpour_option_box');
+    var original_box = item.siblings('div.downpour_option_box');
+    if (original_box === undefined || original_box.length == 0) {
+      // Didn't find the original, grab the detached one
+      original_box = $('#' + _absolute_id(item)).find('div.downpour_option_box');
+    }
+    return original_box;
   }
 
   function _cancel_select(item) {
@@ -226,7 +247,12 @@
     $(document).off('keydown.downpour');
     $(document).off('click.downpour');
 
+    var option_div = $('#' + _absolute_id(item));
+    var parent_wrap = item.parent('div.downpour_wrap');
+
     option_box.hide();
+    option_box.appendTo(parent_wrap);
+    option_div.remove();
   }
 
   function _handle_keypress(event) {
@@ -277,7 +303,13 @@
   }
 
   function _grab_active_select() {
-    return jQuery('div.downpour_option_box').filter(':visible').prevAll('select');
+    var active_select = $('.downpour_absolute').first().data('downpour_active_select');
+    if (active_select === undefined) {
+      return []
+    }
+    else {
+      return active_select;
+    }
   }
 
   function _handle_select_click(item) {
@@ -376,6 +408,10 @@
 
   function _option_row_mouseout() {
     $(this).removeClass('downpour_row_hover');
+  }
+
+  function _absolute_id(select_box) {
+    return "downpour_absolute_" + select_box.data('downpour').id;
   }
 
   function _max_z_index() {

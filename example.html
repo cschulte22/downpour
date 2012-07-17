@@ -19,6 +19,7 @@
       });
 
       $('select.my_other_select').downpour({nowrap: true});
+      $('#choose_overflow').downpour({auto_nbsp: true, nowrap: true});
     })
 
     function new_options() {
@@ -82,7 +83,7 @@
     <tr>
       <td>Select a beer city:</td>
       <td>
-        <select id='choose_city' name='choose_city' class='my_other_select'>
+        <select class='my_other_select'>
           <option value='san_diego' selected>San Diego</option>
           <option value='san_francisco'>San Francisco</option>
           <option value='portland'>Portland</option>
@@ -95,6 +96,22 @@
           <option value='vancouver'>Vancouver</option>
           <option value='milton'>Milton</option>
         </select>
+      </td>
+    </tr>
+    <tr>
+      <td>Overflow Test:</td>
+      <td>
+        <div style='overflow: visible;'>
+          <select id='choose_overflow' name='choose_overflow' class='my_custom_select'>
+            <option value=''></option>
+            <option value='red' selected>Red</option>
+            <option value='orange'>Orange</option>
+            <option value='yellow'>Yellow</option>
+            <option value='green'>Green</option>
+            <option value='blue'>Blue</option>
+            <option value='purple'>Purple</option>
+          </select>
+        </div>
       </td>
     </tr>
   </table>
