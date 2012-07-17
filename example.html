@@ -19,7 +19,16 @@
       });
 
       $('select.my_other_select').downpour({nowrap: true});
-      $('#choose_overflow').downpour({auto_nbsp: true, nowrap: true});
+      $('#choose_overflow').downpour({
+        auto_nbsp: true, 
+        nowrap: true,
+        select: function(value, text) {
+//          alert('overflow selected: ' + value);
+        },
+        blur: function() {
+//          alert('overflow blur');
+        }
+      });
     })
 
     function new_options() {
@@ -107,6 +116,7 @@
             <option value='red' selected>Red</option>
             <option value='orange'>Orange</option>
             <option value='yellow'>Yellow</option>
+            <option value='' disabled='true'>------</option>
             <option value='green'>Green</option>
             <option value='blue'>Blue</option>
             <option value='purple'>Purple</option>

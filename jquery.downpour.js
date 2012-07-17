@@ -117,7 +117,7 @@
           var data = $this.data('downpour');
           if (data.selected !== undefined && data.selected != null) {
             option_box.find('div.downpour_row').each(function() {
-              if ($(this).data('downpour_value') == data.selected) {
+              if ($(this).data('downpour_value') == data.selected && !($(this).hasClass('downpour_row_disabled'))) {
                 $(this).addClass('downpour_row_hover downpour_row_selected');
               }
             });
@@ -160,15 +160,20 @@
         var options = _option_box($this);
         var current_row = options.find('div.downpour_row_hover');
 
-        $this.downpour('selected', current_row.data('downpour_value'));
+        if (current_row.length > 0) {
+          $this.downpour('selected', current_row.data('downpour_value'));
+          $this.siblings('div.downpour_select_box').html(current_row.html());
 
-        $this.siblings('div.downpour_select_box').html(current_row.html());
+          _hide_options($this);
 
-        _hide_options($this);
-
-        var data = $this.data('downpour');
-        if (data.settings.select !== undefined) {
-          data.settings.select.apply($this, [current_row.data('downpour_value'), current_row.html()]);
+          var data = $this.data('downpour');
+          if (data.settings.select !== undefined) {
+            data.settings.select.apply($this, [current_row.data('downpour_value'), current_row.html()]);
+          }
+        }
+        else {
+          // Nothing was selected (probably picked a disabled option)
+          $this.downpour('blur');
         }
       });
     },
@@ -378,7 +383,10 @@
       if (nowrap) {
         row.css({'white-space': 'nowrap'});
       }
-      if ($(this).is(':selected')) {
+      if ($(this).is(':disabled')) {
+        row.addClass('downpour_row_disabled');
+      }
+      else if ($(this).is(':selected')) {
         selected_row = row;
       }
       row.addClass($(this).attr('class'));
@@ -403,7 +411,9 @@
 
   function _option_row_mouseover() {
     $(this).siblings('div.downpour_row_hover').removeClass('downpour_row_hover');
-    $(this).addClass('downpour_row_hover');
+    if (!$(this).hasClass('downpour_row_disabled')) {
+      $(this).addClass('downpour_row_hover');
+    }
   }
 
   function _option_row_mouseout() {
