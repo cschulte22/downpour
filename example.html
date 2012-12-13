@@ -29,6 +29,15 @@
 //          alert('overflow blur');
         }
       });
+
+      $('#disable_brewery').bind('change', function() {
+        if (this.checked) {
+          $('#choose_brewery').downpour('disable');
+        }
+        else {
+          $('#choose_brewery').downpour('enable');
+        }
+      });
     })
 
     function new_options() {
@@ -60,16 +69,24 @@
           <option value='lost_abbey'>Lost Abbey</option>
         </select>
       </td>
+      <td>
+        <input type='checkbox' name='disable_brewery' id='disable_brewery' value='1'>
+        <label for='disable_brewery'>Disabled</label>
+      </td>
     </tr>
     <tr>
       <td>You selected:</td>
       <td id='selected_brewery'>
+      </td>
+      <td>
       </td>
     </tr>
     <tr>
       <td>Change:</td>
       <td>
         <a href='#' onclick='new_options(); return false;'>Option list</a>
+      </td>
+      <td>
       </td>
     </tr>
   </table>

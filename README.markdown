@@ -98,6 +98,8 @@ $('#my_custom_box').downpour('focus');
 * **selected()** - Returns the currently selected value.
 * **selected(value)** - Sets the currently selected value. `$('#my_custom_box').downpour('selected', '2');`
 * **reload_options()** - If you make changes to the underlying list of `<option>` tags, call this method and downpour will reload the option list
+* **disable()** - Disables the select box (only the div tags, the underlying select will still post)
+* **enable()** - Enables the select box
 
 
 ##Requirements

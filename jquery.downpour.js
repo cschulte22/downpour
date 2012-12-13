@@ -90,54 +90,56 @@
     focus : function() {
       return this.each(function() {
         var $this = $(this);
+        var data = $this.data('downpour');
         var select_box = _select_box($this);
         var option_box = _option_box($this);
 
-        if (!option_box.is(':visible')) {
-          select_box.addClass('downpour_select_box_focus');
-          option_box.css({
-            top: (select_box.outerHeight()) + 'px'
-          })
+        if (!data.disabled) {
+          if (!option_box.is(':visible')) {
+            select_box.addClass('downpour_select_box_focus');
+            option_box.css({
+              top: (select_box.outerHeight()) + 'px'
+            })
 
-          option_box.find('div.downpour_row_hover').removeClass('downpour_row_hover');
-          option_box.find('div.downpour_row_selected').removeClass('downpour_row_selected');
+            option_box.find('div.downpour_row_hover').removeClass('downpour_row_hover');
+            option_box.find('div.downpour_row_selected').removeClass('downpour_row_selected');
 
-          var downpour_rows = option_box.find('div.downpour_row');
+            var downpour_rows = option_box.find('div.downpour_row');
 
-          downpour_rows.on('mouseover.downpour', _option_row_mouseover);
-          downpour_rows.on('mouseout.downpour', _option_row_mouseout);
+            downpour_rows.on('mouseover.downpour', _option_row_mouseover);
+            downpour_rows.on('mouseout.downpour', _option_row_mouseout);
 
-          downpour_rows.on('click.downpour', function() {
-            _grab_active_select().downpour('select');
-          });
-
-          $(document).on('keydown.downpour', _handle_keypress);
-          $(document).on('click.downpour', function() { _grab_active_select().downpour('blur')});
-
-          var data = $this.data('downpour');
-          if (data.selected !== undefined && data.selected != null) {
-            option_box.find('div.downpour_row').each(function() {
-              if ($(this).data('downpour_value') == data.selected && !($(this).hasClass('downpour_row_disabled'))) {
-                $(this).addClass('downpour_row_hover downpour_row_selected');
-              }
+            downpour_rows.on('click.downpour', function() {
+              _grab_active_select().downpour('select');
             });
+
+            $(document).on('keydown.downpour', _handle_keypress);
+            $(document).on('click.downpour', function() { _grab_active_select().downpour('blur')});
+
+            if (data.selected !== undefined && data.selected != null) {
+              option_box.find('div.downpour_row').each(function() {
+                if ($(this).data('downpour_value') == data.selected && !($(this).hasClass('downpour_row_disabled'))) {
+                  $(this).addClass('downpour_row_hover downpour_row_selected');
+                }
+              });
+            }
+
+            var parent_wrap = $this.parent('div.downpour_wrap');
+            var option_div = $('<div id="' + _absolute_id($this) + '" class="downpour_absolute"></div>');
+            option_div.addClass(parent_wrap.attr('class'));
+            option_div.css({
+              position: 'absolute',
+              top: parent_wrap.offset().top,
+              left: parent_wrap.offset().left
+            });
+
+            option_box.appendTo(option_div);
+            option_div.appendTo('body');
+            option_div.data('downpour_active_select', $this);
+            option_box.show();
+
+            _scroll_to_selected(option_box, 'down');
           }
-
-          var parent_wrap = $this.parent('div.downpour_wrap');
-          var option_div = $('<div id="' + _absolute_id($this) + '" class="downpour_absolute"></div>');
-          option_div.addClass(parent_wrap.attr('class'));
-          option_div.css({
-            position: 'absolute',
-            top: parent_wrap.offset().top,
-            left: parent_wrap.offset().left
-          });
-
-          option_box.appendTo(option_div);
-          option_div.appendTo('body');
-          option_div.data('downpour_active_select', $this);
-          option_box.show();
-
-          _scroll_to_selected(option_box, 'down');
         }
       });
     },
@@ -204,6 +206,29 @@
         var selected_row = _setup_options($this, data.settings.nowrap, data.settings.auto_nbsp);
         if (selected_row != null) {
           data.selected = selected_row.data('downpour_value');
+        }
+      });
+    },
+
+    disable: function() {
+      return this.each(function() {
+        var $this = $(this)
+        var data = $this.data('downpour');
+        if (!data.disabled) {
+          data.disabled = true
+          _hide_options($this);
+          _select_box($this).addClass('downpour_disabled');
+        }
+      });
+    },
+
+    enable: function() {
+      return this.each(function() {
+        var $this = $(this)
+        var data = $this.data('downpour');
+        if (data.disabled) {
+          data.disabled = false;
+          _select_box($this).removeClass('downpour_disabled');
         }
       });
     }
